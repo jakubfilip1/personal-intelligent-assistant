@@ -17,6 +17,7 @@ set(PROJECT_SOURCES
         android.png
         personalintelligentassistant.h personalintelligentassistant.cpp
         chat.h chat.cpp
+        trayicon.h trayicon.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

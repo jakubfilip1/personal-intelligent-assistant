@@ -8,6 +8,7 @@
 #include <QMouseEvent>
 
 #include "chat.h"
+#include "trayicon.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class PersonalIntelligentAssistant; }
@@ -22,7 +23,7 @@ public:
     ~PersonalIntelligentAssistant();
 
 protected:
-    QSystemTrayIcon *trayIcon;
+    TrayIcon *trayIcon;
     Chat *chat;
 
     void setAndroid();

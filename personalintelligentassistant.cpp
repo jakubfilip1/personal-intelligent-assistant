@@ -62,7 +62,7 @@ void PersonalIntelligentAssistant::setAndroid()
 void PersonalIntelligentAssistant::addTrayIcon()
 {
     QIcon android("android.png");
-    this->trayIcon = new QSystemTrayIcon(android);
+    this->trayIcon = new TrayIcon(android);
     this->trayIcon->show();
 }
 
