@@ -5,6 +5,9 @@
 #include <QScreen>
 #include <QApplication>
 #include <QSystemTrayIcon>
+#include <QMouseEvent>
+
+#include "chat.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class PersonalIntelligentAssistant; }
@@ -20,11 +23,15 @@ public:
 
 protected:
     QSystemTrayIcon *trayIcon;
+    Chat *chat;
 
     void setAndroid();
     QSize getScreenSize();
     int getAndroidHeight();
     QPoint getAndroidPosition(QSize);
     void addTrayIcon();
+    void openChat();
+    void mousePressEvent(QMouseEvent *) override;
+    void createChat();
 };
 #endif // PERSONALINTELLIGENTASSISTANT_H

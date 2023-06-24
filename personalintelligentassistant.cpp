@@ -8,11 +8,13 @@ PersonalIntelligentAssistant::PersonalIntelligentAssistant(QWidget *parent)
     this->setWindowFlag(Qt::WindowStaysOnTopHint);
     this->setWindowFlag(Qt::Tool);
     this->addTrayIcon();
+    this->createChat();
 }
 
 PersonalIntelligentAssistant::~PersonalIntelligentAssistant()
 {
     delete this->trayIcon;
+    delete this->chat;
 }
 
 QSize PersonalIntelligentAssistant::getScreenSize()
@@ -62,4 +64,31 @@ void PersonalIntelligentAssistant::addTrayIcon()
     QIcon android("android.png");
     this->trayIcon = new QSystemTrayIcon(android);
     this->trayIcon->show();
+}
+
+void PersonalIntelligentAssistant::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        this->openChat();
+    }
+
+    QMainWindow::mousePressEvent(event);
+}
+
+void PersonalIntelligentAssistant::openChat()
+{
+    if(this->chat->isVisible())
+    {
+        this->chat->hide();
+    }
+    else
+    {
+        this->chat->show();
+    }
+}
+
+void PersonalIntelligentAssistant::createChat()
+{
+    this->chat = new Chat(this);
 }

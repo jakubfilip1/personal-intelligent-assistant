@@ -15,7 +15,8 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 set(PROJECT_SOURCES
         main.cpp
         android.png
-        personalintelligentassistant.cpp personalintelligentassistant.h
+        personalintelligentassistant.h personalintelligentassistant.cpp
+        chat.h chat.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
