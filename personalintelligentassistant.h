@@ -16,11 +16,15 @@ class PersonalIntelligentAssistant : public QMainWindow
 
 public:
     PersonalIntelligentAssistant(QWidget *parent = nullptr);
+    ~PersonalIntelligentAssistant();
 
 protected:
+    QSystemTrayIcon *trayIcon;
+
     void setAndroid();
     QSize getScreenSize();
     int getAndroidHeight();
     QPoint getAndroidPosition(QSize);
+    void addTrayIcon();
 };
 #endif // PERSONALINTELLIGENTASSISTANT_H

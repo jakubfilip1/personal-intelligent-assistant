@@ -7,6 +7,12 @@ PersonalIntelligentAssistant::PersonalIntelligentAssistant(QWidget *parent)
 
     this->setWindowFlag(Qt::WindowStaysOnTopHint);
     this->setWindowFlag(Qt::Tool);
+    this->addTrayIcon();
+}
+
+PersonalIntelligentAssistant::~PersonalIntelligentAssistant()
+{
+    delete this->trayIcon;
 }
 
 QSize PersonalIntelligentAssistant::getScreenSize()
@@ -49,4 +55,11 @@ void PersonalIntelligentAssistant::setAndroid()
     QPoint androidPosition = this->getAndroidPosition(scaledAndroid.size());
 
     this->move(androidPosition.x(), androidPosition.y());
+}
+
+void PersonalIntelligentAssistant::addTrayIcon()
+{
+    QIcon android("android.png");
+    this->trayIcon = new QSystemTrayIcon(android);
+    this->trayIcon->show();
 }
