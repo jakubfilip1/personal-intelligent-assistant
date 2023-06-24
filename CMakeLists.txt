@@ -14,9 +14,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        personalintelligentassistant.cpp
-        personalintelligentassistant.h
-        personalintelligentassistant.ui
+        personalintelligentassistant.cpp personalintelligentassistant.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

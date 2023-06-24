@@ -14,8 +14,5 @@ class PersonalIntelligentAssistant : public QMainWindow
 public:
     PersonalIntelligentAssistant(QWidget *parent = nullptr);
     ~PersonalIntelligentAssistant();
-
-private:
-    Ui::PersonalIntelligentAssistant *ui;
 };
 #endif // PERSONALINTELLIGENTASSISTANT_H
