@@ -2,6 +2,9 @@
 #define PERSONALINTELLIGENTASSISTANT_H
 
 #include <QMainWindow>
+#include <QScreen>
+#include <QApplication>
+#include <QSystemTrayIcon>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class PersonalIntelligentAssistant; }
@@ -13,6 +16,11 @@ class PersonalIntelligentAssistant : public QMainWindow
 
 public:
     PersonalIntelligentAssistant(QWidget *parent = nullptr);
-    ~PersonalIntelligentAssistant();
+
+protected:
+    void setAndroid();
+    QSize getScreenSize();
+    int getAndroidHeight();
+    QPoint getAndroidPosition(QSize);
 };
 #endif // PERSONALINTELLIGENTASSISTANT_H
