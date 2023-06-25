@@ -11,6 +11,13 @@ Chat::Chat(QWidget *parent)
     this->setChatPosition();
 
     QVBoxLayout *centralLayout = new QVBoxLayout();
+
+    QPushButton *trash = new QPushButton();
+    trash->setText("Clear conversation");
+    connect(trash, &QPushButton::clicked, this, &Chat::clearConversation);
+    centralLayout->addWidget(trash);
+
+
     QScrollArea *scrollArea = new QScrollArea();
     scrollArea->setWidgetResizable(true);
     QWidget *scrollWidget = new QWidget();
@@ -59,7 +66,6 @@ void Chat::sendMessage()
     this->addMessage(messageModel);
 
     Conversation conv;
-    conv.addMessage(messageModel);
 
     api->sendMessages(conv.getMessages());
 
@@ -104,5 +110,32 @@ void Chat::addMessage(MessageModel messageModel)
     conv.addMessage(messageModel);
 
     this->scrollWidgetLayout->addWidget(newMessageWidget);
+    this->scrollWidgetLayout->invalidate();
+}
+
+void Chat::clearConversation()
+{
+    QLayoutItem *item;
+
+    while((item = this->scrollWidgetLayout->takeAt(0)) != nullptr)
+    {
+        QWidget *widget;
+
+        if(widget = item->widget())
+        {
+            this->scrollWidgetLayout->removeWidget(widget);
+
+            delete widget;
+        }
+        else
+        {
+            this->scrollWidgetLayout->removeItem(item);
+            delete item;
+        }
+    }
+
+    Conversation conv;
+    conv.removeMessages();
+
     this->scrollWidgetLayout->invalidate();
 }

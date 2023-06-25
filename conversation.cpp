@@ -57,3 +57,11 @@ void Conversation::addMessage(MessageModel messageModel)
 
     file.close();
 }
+
+void Conversation::removeMessages()
+{
+    QFile file("conversation.json");
+    file.open(QIODevice::WriteOnly);
+    file.write("");
+    file.close();
+}

@@ -31,6 +31,7 @@ protected:
     void setChatSize();
     void setChatPosition();
     void addMessage(MessageModel);
+    void clearConversation();
 
 signals:
 

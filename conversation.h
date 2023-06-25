@@ -16,6 +16,7 @@ public:
     Conversation();
     MessageCollection getMessages();
     void addMessage(MessageModel);
+    void removeMessages();
 
 };
 
