@@ -39,6 +39,25 @@ Chat::Chat(QWidget *parent)
     centralLayout->addWidget(form);
 
     this->setLayout(centralLayout);
+
+    Conversation conv;
+
+    for(MessageModel model : conv.getMessages().getMessages())
+    {
+        QTextEdit *newMessageWidget = new QTextEdit();
+
+        this->connect(newMessageWidget->document()->documentLayout(), &QAbstractTextDocumentLayout::documentSizeChanged, [this, newMessageWidget]() {
+            this->textChanged(newMessageWidget);
+        });
+
+        newMessageWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+        newMessageWidget->setStyleSheet("background-color: grey;");
+        newMessageWidget->setReadOnly(true);
+        newMessageWidget->setText(model.getContent());
+
+        this->scrollWidgetLayout->addWidget(newMessageWidget);
+        this->scrollWidgetLayout->invalidate();
+    }
 }
 
 void Chat::sendMessage()
