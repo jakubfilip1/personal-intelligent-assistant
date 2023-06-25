@@ -14,4 +14,83 @@ Chat::Chat(QWidget *parent)
 
     this->move(personalIntelligentAssistant->x() - this->width() + personalIntelligentAssistant->width(), personalIntelligentAssistant->y() - this->height());
 
+    QVBoxLayout *centralLayout = new QVBoxLayout();
+    QScrollArea *scrollArea = new QScrollArea();
+    scrollArea->setWidgetResizable(true);
+    QWidget *scrollWidget = new QWidget();
+    this->scrollWidgetLayout = new QVBoxLayout();
+    this->scrollWidgetLayout->setAlignment(Qt::AlignTop);
+
+    scrollWidget->setLayout(this->scrollWidgetLayout);
+
+    scrollArea->setWidget(scrollWidget);
+    centralLayout->addWidget(scrollArea);
+
+    QWidget *form = new QWidget();
+    QHBoxLayout *formLayout = new QHBoxLayout();
+    QPushButton *sendButton = new QPushButton();
+
+    this->connect(sendButton, &QPushButton::clicked, this, &Chat::sendMessage);
+
+    this->messageText = new QLineEdit();
+
+    sendButton->setText("Send");
+    formLayout->addWidget(this->messageText);
+    formLayout->addWidget(sendButton);
+
+    form->setLayout(formLayout);
+
+    centralLayout->addWidget(form);
+
+    this->setLayout(centralLayout);
+}
+
+void Chat::sendMessage()
+{
+    APIOpenAI *api = new APIOpenAI();
+
+    QString newMessage = this->messageText->text();
+
+    QTextEdit *newMessageWidget = new QTextEdit();
+
+    this->connect(newMessageWidget->document()->documentLayout(), &QAbstractTextDocumentLayout::documentSizeChanged, [this, newMessageWidget]() {
+        this->textChanged(newMessageWidget);
+    });
+
+    newMessageWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    newMessageWidget->setStyleSheet("background-color: grey;");
+    newMessageWidget->setReadOnly(true);
+    newMessageWidget->setText(newMessage);
+
+    this->scrollWidgetLayout->addWidget(newMessageWidget);
+    this->scrollWidgetLayout->invalidate();
+
+    MessageCollection messageCollection;
+
+    MessageModel messageModel("user", newMessage);
+    messageCollection.add(messageModel);
+
+    api->sendMessages(messageCollection);
+
+    this->connect(api, &APIOpenAI::messageReceived, this, &Chat::messageReceived);
+}
+
+void Chat::messageReceived(MessageCollection mc)
+{
+    QString newMessage = mc.getMessages().last().getContent();
+
+    QTextEdit * newMessageWidget = new QTextEdit();
+
+    this->connect(newMessageWidget->document()->documentLayout(), &QAbstractTextDocumentLayout::documentSizeChanged, [this, newMessageWidget]() {this->textChanged(newMessageWidget);});
+    newMessageWidget->setReadOnly(true);
+    newMessageWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    newMessageWidget->setText(newMessage);
+
+    this->scrollWidgetLayout->addWidget(newMessageWidget);
+    this->scrollWidgetLayout->invalidate();
+}
+
+void Chat::textChanged(QTextEdit *newMessageWidget)
+{
+    newMessageWidget->setFixedHeight(newMessageWidget->document()->documentLayout()->documentSize().height() + newMessageWidget->contentsMargins().top() + newMessageWidget->contentsMargins().bottom());
 }
