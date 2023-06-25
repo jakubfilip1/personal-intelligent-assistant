@@ -13,6 +13,7 @@
 #include <QTextBrowser>
 
 #include "apiopenai.h"
+#include "conversation.h"
 
 class Chat : public QWidget
 {

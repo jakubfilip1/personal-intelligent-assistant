@@ -22,6 +22,7 @@ set(PROJECT_SOURCES
         apiopenai.h apiopenai.cpp
         messagemodel.h messagemodel.cpp
         messagecollection.h messagecollection.cpp
+        conversation.h conversation.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

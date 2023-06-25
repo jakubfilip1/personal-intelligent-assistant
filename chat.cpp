@@ -65,12 +65,11 @@ void Chat::sendMessage()
     this->scrollWidgetLayout->addWidget(newMessageWidget);
     this->scrollWidgetLayout->invalidate();
 
-    MessageCollection messageCollection;
-
     MessageModel messageModel("user", newMessage);
-    messageCollection.add(messageModel);
+    Conversation conv;
+    conv.addMessage(messageModel);
 
-    api->sendMessages(messageCollection);
+    api->sendMessages(conv.getMessages());
 
     this->connect(api, &APIOpenAI::messageReceived, this, &Chat::messageReceived);
 }
@@ -85,6 +84,9 @@ void Chat::messageReceived(MessageCollection mc)
     newMessageWidget->setReadOnly(true);
     newMessageWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     newMessageWidget->setText(newMessage);
+
+    Conversation conv;
+    conv.addMessage(mc.getMessages().last());
 
     this->scrollWidgetLayout->addWidget(newMessageWidget);
     this->scrollWidgetLayout->invalidate();

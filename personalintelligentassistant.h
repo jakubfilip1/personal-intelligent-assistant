@@ -8,6 +8,7 @@
 #include <QMouseEvent>
 
 #include "chat.h"
+#include "conversation.h"
 #include "trayicon.h"
 
 QT_BEGIN_NAMESPACE

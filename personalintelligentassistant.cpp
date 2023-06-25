@@ -3,6 +3,11 @@
 PersonalIntelligentAssistant::PersonalIntelligentAssistant(QWidget *parent)
     : QMainWindow(parent)
 {
+
+    Conversation *conv = new Conversation();
+
+    conv->getMessages();
+
     this->setAndroid();
 
     this->setWindowFlag(Qt::WindowStaysOnTopHint);
