@@ -12,7 +12,7 @@ void APIOpenAI::request(QString endpoint, void (APIOpenAI::*slot)(), QString met
     QNetworkAccessManager *manager = new QNetworkAccessManager();
 
     QNetworkRequest request(url);
-    request.setRawHeader("Authorization", "Bearer ");
+    request.setRawHeader("Authorization", "Bearer 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");
     request.setRawHeader("Content-Type", "application/json");
 
     QNetworkReply *response;

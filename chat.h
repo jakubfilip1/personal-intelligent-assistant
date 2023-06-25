@@ -28,6 +28,8 @@ protected:
     void sendMessage();
     void messageReceived(MessageCollection);
     void textChanged(QTextEdit*);
+    void setChatSize();
+    void setChatPosition();
 
 signals:
 

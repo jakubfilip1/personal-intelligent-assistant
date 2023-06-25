@@ -7,12 +7,8 @@ Chat::Chat(QWidget *parent)
     this->setWindowFlag(Qt::FramelessWindowHint);
     this->setWindowFlag(Qt::WindowStaysOnTopHint);
 
-    QWidget *personalIntelligentAssistant = dynamic_cast<QWidget*>(this->parent());
-
-    this->setFixedHeight(personalIntelligentAssistant->height() + 500);
-    this->setFixedWidth(personalIntelligentAssistant->width() + 300);
-
-    this->move(personalIntelligentAssistant->x() - this->width() + personalIntelligentAssistant->width(), personalIntelligentAssistant->y() - this->height());
+    this->setChatSize();
+    this->setChatPosition();
 
     QVBoxLayout *centralLayout = new QVBoxLayout();
     QScrollArea *scrollArea = new QScrollArea();
@@ -95,4 +91,19 @@ void Chat::messageReceived(MessageCollection mc)
 void Chat::textChanged(QTextEdit *newMessageWidget)
 {
     newMessageWidget->setFixedHeight(newMessageWidget->document()->documentLayout()->documentSize().height() + newMessageWidget->contentsMargins().top() + newMessageWidget->contentsMargins().bottom());
+}
+
+void Chat::setChatSize()
+{
+    QWidget *personalIntelligentAssistant = dynamic_cast<QWidget*>(this->parent());
+
+    this->setFixedHeight(personalIntelligentAssistant->height() + 500);
+    this->setFixedWidth(personalIntelligentAssistant->width() + 300);
+}
+
+void Chat::setChatPosition()
+{
+    QWidget *personalIntelligentAssistant = dynamic_cast<QWidget*>(this->parent());
+
+    this->move(personalIntelligentAssistant->x() - this->width() + personalIntelligentAssistant->width(), personalIntelligentAssistant->y() - this->height());
 }
