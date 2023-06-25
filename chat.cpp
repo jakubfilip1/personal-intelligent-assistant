@@ -46,6 +46,7 @@ void Chat::sendMessage()
     APIOpenAI *api = new APIOpenAI();
 
     QString newMessage = this->messageText->text();
+    this->messageText->clear();
 
     QTextEdit *newMessageWidget = new QTextEdit();
 
