@@ -44,19 +44,7 @@ Chat::Chat(QWidget *parent)
 
     for(MessageModel model : conv.getMessages().getMessages())
     {
-        QTextEdit *newMessageWidget = new QTextEdit();
-
-        this->connect(newMessageWidget->document()->documentLayout(), &QAbstractTextDocumentLayout::documentSizeChanged, [this, newMessageWidget]() {
-            this->textChanged(newMessageWidget);
-        });
-
-        newMessageWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-        newMessageWidget->setStyleSheet("background-color: grey;");
-        newMessageWidget->setReadOnly(true);
-        newMessageWidget->setText(model.getContent());
-
-        this->scrollWidgetLayout->addWidget(newMessageWidget);
-        this->scrollWidgetLayout->invalidate();
+        this->addMessage(model);
     }
 }
 
@@ -67,21 +55,9 @@ void Chat::sendMessage()
     QString newMessage = this->messageText->text();
     this->messageText->clear();
 
-    QTextEdit *newMessageWidget = new QTextEdit();
-
-    this->connect(newMessageWidget->document()->documentLayout(), &QAbstractTextDocumentLayout::documentSizeChanged, [this, newMessageWidget]() {
-        this->textChanged(newMessageWidget);
-    });
-
-    newMessageWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-    newMessageWidget->setStyleSheet("background-color: grey;");
-    newMessageWidget->setReadOnly(true);
-    newMessageWidget->setText(newMessage);
-
-    this->scrollWidgetLayout->addWidget(newMessageWidget);
-    this->scrollWidgetLayout->invalidate();
-
     MessageModel messageModel("user", newMessage);
+    this->addMessage(messageModel);
+
     Conversation conv;
     conv.addMessage(messageModel);
 
@@ -92,20 +68,7 @@ void Chat::sendMessage()
 
 void Chat::messageReceived(MessageCollection mc)
 {
-    QString newMessage = mc.getMessages().last().getContent();
-
-    QTextEdit * newMessageWidget = new QTextEdit();
-
-    this->connect(newMessageWidget->document()->documentLayout(), &QAbstractTextDocumentLayout::documentSizeChanged, [this, newMessageWidget]() {this->textChanged(newMessageWidget);});
-    newMessageWidget->setReadOnly(true);
-    newMessageWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-    newMessageWidget->setText(newMessage);
-
-    Conversation conv;
-    conv.addMessage(mc.getMessages().last());
-
-    this->scrollWidgetLayout->addWidget(newMessageWidget);
-    this->scrollWidgetLayout->invalidate();
+    this->addMessage(mc.getMessages().last());
 }
 
 void Chat::textChanged(QTextEdit *newMessageWidget)
@@ -126,4 +89,20 @@ void Chat::setChatPosition()
     QWidget *personalIntelligentAssistant = dynamic_cast<QWidget*>(this->parent());
 
     this->move(personalIntelligentAssistant->x() - this->width() + personalIntelligentAssistant->width(), personalIntelligentAssistant->y() - this->height());
+}
+
+void Chat::addMessage(MessageModel messageModel)
+{
+    QTextEdit * newMessageWidget = new QTextEdit();
+
+    this->connect(newMessageWidget->document()->documentLayout(), &QAbstractTextDocumentLayout::documentSizeChanged, [this, newMessageWidget]() {this->textChanged(newMessageWidget);});
+    newMessageWidget->setReadOnly(true);
+    newMessageWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    newMessageWidget->setText(messageModel.getContent());
+
+    Conversation conv;
+    conv.addMessage(messageModel);
+
+    this->scrollWidgetLayout->addWidget(newMessageWidget);
+    this->scrollWidgetLayout->invalidate();
 }

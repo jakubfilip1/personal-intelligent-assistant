@@ -30,6 +30,7 @@ protected:
     void textChanged(QTextEdit*);
     void setChatSize();
     void setChatPosition();
+    void addMessage(MessageModel);
 
 signals:
 
